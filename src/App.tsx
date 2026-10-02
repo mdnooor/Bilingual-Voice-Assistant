@@ -67,7 +67,14 @@ export default function App() {
   const [isTestingMic, setIsTestingMic] = useState(false);
 
   // Active Tab in Dashboard
-  const [activeTab, setActiveTab] = useState<'overview' | 'simulator' | 'report' | 'files'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'simulator' | 'report' | 'files' | 'github'>('overview');
+  const [copiedGitCommand, setCopiedGitCommand] = useState<string | null>(null);
+
+  const copyGit = (cmd: string, label: string) => {
+    navigator.clipboard.writeText(cmd);
+    setCopiedGitCommand(label);
+    setTimeout(() => setCopiedGitCommand(null), 1800);
+  };
 
   const recognitionRef = useRef<any>(null);
 
@@ -542,6 +549,17 @@ export default function App() {
                 }`}
               >
                 Package Files
+              </button>
+              <button
+                onClick={() => setActiveTab('github')}
+                className={`px-3 py-1.5 rounded-md font-medium transition flex items-center gap-1.5 ${
+                  activeTab === 'github'
+                    ? 'bg-indigo-600 text-white shadow'
+                    : 'text-slate-400 hover:text-slate-200'
+                }`}
+              >
+                <span>GitHub Guide</span>
+                <span className="text-[10px] px-1 py-0.2 bg-emerald-500/20 text-emerald-300 rounded">v1.0</span>
               </button>
             </div>
 
@@ -1258,11 +1276,18 @@ export default function App() {
                 <div>📄 mic-setup.html</div>
                 <div>📄 mic-setup.js</div>
                 <div className="pl-4 text-slate-400">
-                  📁 icons/
+                  📁 icons/ <span className="text-emerald-400 font-normal">(Full 9-size High-DPI Pack)</span>
                   <div className="pl-4 text-slate-300">
-                    <div>🖼️ icon16.png</div>
-                    <div>🖼️ icon48.png</div>
-                    <div>🖼️ icon128.png</div>
+                    <div>🖼️ icon16.png <span className="text-slate-500 font-mono text-[10px]">(16x16 Favicon/Toolbar)</span></div>
+                    <div>🖼️ icon24.png <span className="text-slate-500 font-mono text-[10px]">(24x24 Action)</span></div>
+                    <div>🖼️ icon32.png <span className="text-slate-500 font-mono text-[10px]">(32x32 Taskbar/High-DPI)</span></div>
+                    <div>🖼️ icon48.png <span className="text-slate-500 font-mono text-[10px]">(48x48 Extensions Manager)</span></div>
+                    <div>🖼️ icon64.png <span className="text-slate-500 font-mono text-[10px]">(64x64 High-DPI)</span></div>
+                    <div>🖼️ icon96.png <span className="text-slate-500 font-mono text-[10px]">(96x96 Retina)</span></div>
+                    <div>🖼️ icon128.png <span className="text-slate-500 font-mono text-[10px]">(128x128 CWS Install)</span></div>
+                    <div>🖼️ icon256.png <span className="text-slate-500 font-mono text-[10px]">(256x256 Promo)</span></div>
+                    <div>🖼️ icon512.png <span className="text-slate-500 font-mono text-[10px]">(512x512 Store Asset)</span></div>
+                    <div>📄 README.txt <span className="text-slate-500 font-mono text-[10px]">(Icon Pack Specs)</span></div>
                   </div>
                 </div>
                 <div className="pl-4 text-slate-400">
@@ -1288,6 +1313,185 @@ export default function App() {
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
+        )}
+
+        {/* TAB 5: GITHUB PUSH & PUBLISH GUIDE */}
+        {activeTab === 'github' && (
+          <div className="space-y-6">
+            <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+              <div>
+                <h2 className="text-xl font-bold text-white flex items-center gap-2">
+                  <Terminal className="w-6 h-6 text-indigo-400" />
+                  <span>GitHub Repository Setup &amp; Publishing Guide</span>
+                </h2>
+                <p className="text-xs text-slate-400 mt-1">
+                  Complete step-by-step instructions to initialize git, push source code to GitHub, tag releases, and publish to Chrome Web Store.
+                </p>
+              </div>
+              <a
+                href="/extension.zip"
+                download="extension.zip"
+                className="px-5 py-2.5 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-bold rounded-xl flex items-center gap-2 shadow-lg shadow-emerald-600/20 transition"
+              >
+                <Download className="w-4 h-4" />
+                <span>Download extension.zip</span>
+              </a>
+            </div>
+
+            {/* Step 1: Git Init & Push */}
+            <div className="bg-slate-900 border border-slate-800 rounded-xl p-5 space-y-3">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <span className="w-6 h-6 rounded-full bg-indigo-500/20 text-indigo-400 font-bold text-xs flex items-center justify-center">
+                    1
+                  </span>
+                  <h3 className="text-sm font-bold text-white">Initialize Local Git &amp; Push to GitHub</h3>
+                </div>
+                <button
+                  onClick={() =>
+                    copyGit(
+                      'git init\ngit add .\ngit commit -m "feat: initial production release v1.0.0"\ngit branch -M main\ngit remote add origin https://github.com/YOUR_USERNAME/bilingual-voice-assistant.git\ngit push -u origin main',
+                      'git-init'
+                    )
+                  }
+                  className="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs rounded border border-slate-700 flex items-center gap-1.5 transition"
+                >
+                  {copiedGitCommand === 'git-init' ? (
+                    <>
+                      <Check className="w-3.5 h-3.5 text-emerald-400" />
+                      <span className="text-emerald-400">Copied!</span>
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="w-3.5 h-3.5" />
+                      <span>Copy Commands</span>
+                    </>
+                  )}
+                </button>
+              </div>
+              <p className="text-xs text-slate-400">
+                Run these commands in your project root to initialize git and connect to your GitHub repository:
+              </p>
+              <div className="bg-slate-950 p-3.5 rounded-lg border border-slate-800 font-mono text-xs text-slate-300 space-y-1 overflow-x-auto">
+                <div className="text-slate-500"># 1. Initialize git and commit files</div>
+                <div>git init</div>
+                <div>git add .</div>
+                <div>git commit -m &quot;feat: initial production release v1.0.0 of Bilingual Voice Assistant&quot;</div>
+                <div className="text-slate-500 pt-2"># 2. Link your remote GitHub repository and push</div>
+                <div>git branch -M main</div>
+                <div>git remote add origin https://github.com/<span className="text-amber-400">YOUR_USERNAME</span>/<span className="text-amber-400">bilingual-voice-assistant</span>.git</div>
+                <div>git push -u origin main</div>
+              </div>
+            </div>
+
+            {/* Step 2: GitHub Release Tagging */}
+            <div className="bg-slate-900 border border-slate-800 rounded-xl p-5 space-y-3">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <span className="w-6 h-6 rounded-full bg-indigo-500/20 text-indigo-400 font-bold text-xs flex items-center justify-center">
+                    2
+                  </span>
+                  <h3 className="text-sm font-bold text-white">Create a Release Tag (v1.0.0)</h3>
+                </div>
+                <button
+                  onClick={() =>
+                    copyGit(
+                      'git tag -a v1.0.0 -m "Release v1.0.0: Production Chrome Web Store build"\ngit push origin v1.0.0',
+                      'git-tag'
+                    )
+                  }
+                  className="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs rounded border border-slate-700 flex items-center gap-1.5 transition"
+                >
+                  {copiedGitCommand === 'git-tag' ? (
+                    <>
+                      <Check className="w-3.5 h-3.5 text-emerald-400" />
+                      <span className="text-emerald-400">Copied!</span>
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="w-3.5 h-3.5" />
+                      <span>Copy Commands</span>
+                    </>
+                  )}
+                </button>
+              </div>
+              <p className="text-xs text-slate-400">
+                Tagging a release triggers the included GitHub Actions workflow (<code className="text-indigo-300 bg-slate-950 px-1 py-0.5 rounded">.github/workflows/release.yml</code>),
+                which automatically packages <code className="text-emerald-400">extension.zip</code> and attaches it as a downloadable release asset:
+              </p>
+              <div className="bg-slate-950 p-3.5 rounded-lg border border-slate-800 font-mono text-xs text-slate-300 space-y-1">
+                <div>git tag -a v1.0.0 -m &quot;Release v1.0.0: Production Chrome Web Store build&quot;</div>
+                <div>git push origin v1.0.0</div>
+              </div>
+            </div>
+
+            {/* Step 3: Chrome Web Store Submission Checklist */}
+            <div className="bg-slate-900 border border-slate-800 rounded-xl p-5 space-y-3">
+              <div className="flex items-center gap-2">
+                <span className="w-6 h-6 rounded-full bg-indigo-500/20 text-indigo-400 font-bold text-xs flex items-center justify-center">
+                  3
+                </span>
+                <h3 className="text-sm font-bold text-white">Chrome Web Store Developer Dashboard Upload</h3>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs text-slate-300">
+                <div className="bg-slate-950/60 p-3 rounded-lg border border-slate-800 space-y-1.5">
+                  <div className="font-bold text-white flex items-center gap-1.5">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                    <span>Upload extension.zip</span>
+                  </div>
+                  <p className="text-slate-400">
+                    Visit the Chrome Web Store Dev Console, click <strong>Add new item</strong>, and upload <code className="text-indigo-300">extension.zip</code>. The manifest is at the root.
+                  </p>
+                </div>
+
+                <div className="bg-slate-950/60 p-3 rounded-lg border border-slate-800 space-y-1.5">
+                  <div className="font-bold text-white flex items-center gap-1.5">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                    <span>Store Graphic Assets</span>
+                  </div>
+                  <p className="text-slate-400">
+                    Store icon: use <code className="text-indigo-300">extension/icons/icon128.png</code> (128x128) or <code className="text-indigo-300">icon512.png</code> (512x512).
+                  </p>
+                </div>
+
+                <div className="bg-slate-950/60 p-3 rounded-lg border border-slate-800 space-y-1.5">
+                  <div className="font-bold text-white flex items-center gap-1.5">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                    <span>Privacy &amp; Permissions</span>
+                  </div>
+                  <p className="text-slate-400">
+                    Declare Single Purpose: &quot;Bilingual speech recognition and refinement.&quot; State that no personal data is sold or stored externally.
+                  </p>
+                </div>
+
+                <div className="bg-slate-950/60 p-3 rounded-lg border border-slate-800 space-y-1.5">
+                  <div className="font-bold text-white flex items-center gap-1.5">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                    <span>Instant Review Approval</span>
+                  </div>
+                  <p className="text-slate-400">
+                    With 0 remote code, 0 eval, and minimal permissions (<code className="text-emerald-400">storage, offscreen, sidePanel</code>), approval is typically fast.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Step 4: Included Files Ready for GitHub */}
+            <div className="bg-slate-900 border border-slate-800 rounded-xl p-5 space-y-2">
+              <h3 className="text-sm font-bold text-white flex items-center gap-2">
+                <FileCheck className="w-4 h-4 text-emerald-400" />
+                <span>Files Prepared in this Repository:</span>
+              </h3>
+              <ul className="text-xs text-slate-300 space-y-1.5 list-disc list-inside">
+                <li><strong className="text-white">README.md</strong>: Comprehensive project overview, badges, local install steps, permissions audit, and license.</li>
+                <li><strong className="text-white">LICENSE</strong>: Standard permissive MIT License.</li>
+                <li><strong className="text-white">.gitignore</strong>: Clean ignores for node_modules, temp files, and private keys.</li>
+                <li><strong className="text-white">.github/workflows/release.yml</strong>: Automated GitHub release workflow on tag push.</li>
+                <li><strong className="text-white">extension/icons/</strong>: Complete 9-resolution icon pack (16, 24, 32, 48, 64, 96, 128, 256, 512).</li>
+                <li><strong className="text-white">extension.zip</strong>: Clean production package ready for store upload (~55 KB).</li>
+              </ul>
             </div>
           </div>
         )}
