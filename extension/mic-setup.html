@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Microphone Setup - Bilingual Voice Assistant</title>
+  <link rel="stylesheet" href="options.css">
+  <style>
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+    .setup-box {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 32px;
+      max-width: 480px;
+      text-align: center;
+    }
+    .mic-hero-icon {
+      margin-bottom: 16px;
+      color: var(--accent-indigo);
+    }
+  </style>
+</head>
+<body>
+  <div class="setup-box">
+    <div class="mic-hero-icon">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+        <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+        <line x1="12" y1="19" x2="12" y2="23"/>
+        <line x1="8" y1="23" x2="16" y2="23"/>
+      </svg>
+    </div>
+    <h1>Allow Microphone Access</h1>
+    <p class="section-desc">Click the button below to grant microphone access so the Voice Assistant can recognize your speech.</p>
+    <button id="grantMicBtn" class="btn-primary" style="margin-top: 16px;">Allow Microphone</button>
+    <p id="micResult" style="margin-top: 14px; font-size: 13px;"></p>
+  </div>
+  <script src="mic-setup.js"></script>
+</body>
+</html>

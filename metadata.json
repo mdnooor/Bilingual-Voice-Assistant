@@ -1,0 +1,6 @@
+{
+  "name": "Bilingual Voice Assistant - Chrome Web Store Audit & Release",
+  "description": "Production readiness audit, compliance verification, and Chrome Web Store release package for Bilingual Voice Assistant extension.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

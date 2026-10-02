@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings - Bilingual Voice Assistant</title>
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <div class="options-container">
+    <header class="options-header">
+      <div class="header-branding">
+        <img src="icons/icon48.png" alt="Logo" width="32" height="32">
+        <div>
+          <h1>Voice Assistant Settings</h1>
+          <p class="subtitle">Configure AI Providers, Speech Recognition, and Audio Diagnostics</p>
+        </div>
+      </div>
+    </header>
+
+    <main class="options-body">
+      <!-- AI Provider Section -->
+      <section class="settings-card">
+        <h2>AI Refine Provider</h2>
+        <p class="section-desc">Select which AI model handles bilingual grammar cleanup and translation.</p>
+
+        <div class="form-group">
+          <label for="providerSelect">Provider</label>
+          <select id="providerSelect" class="input-select">
+            <option value="gemini">Google Gemini (Recommended)</option>
+            <option value="groq">Groq Cloud (High Speed Llama 3)</option>
+            <option value="openai">OpenAI (GPT-4o-mini)</option>
+            <option value="custom">Custom OpenAI-Compatible API</option>
+          </select>
+        </div>
+
+        <div class="form-group" id="apiKeyGroup">
+          <label for="apiKeyInput">API Key</label>
+          <div class="password-wrapper">
+            <input type="password" id="apiKeyInput" class="input-text" placeholder="Enter your provider API key..." autocomplete="off">
+            <button type="button" id="toggleKeyVisibility" class="btn-toggle-eye">Show</button>
+          </div>
+          <small class="help-text">API keys are stored strictly in local browser storage (chrome.storage.local) and never sent to third-party servers.</small>
+        </div>
+
+        <div class="form-group" id="customEndpointGroup" style="display: none;">
+          <label for="customEndpointInput">Custom Endpoint URL</label>
+          <input type="url" id="customEndpointInput" class="input-text" placeholder="https://api.yourdomain.com/v1/chat/completions">
+        </div>
+
+        <div class="form-group">
+          <label for="modelInput">Model Name</label>
+          <input type="text" id="modelInput" class="input-text" placeholder="e.g. gemini-1.5-flash">
+        </div>
+      </section>
+
+      <!-- Speech Recognition Settings -->
+      <section class="settings-card">
+        <h2>Voice Recognition</h2>
+        <div class="form-group">
+          <label for="sttLangSelect">Primary Spoken Language</label>
+          <select id="sttLangSelect" class="input-select">
+            <option value="auto">Auto-Detect / Bilingual</option>
+            <option value="bn-BD">Bangla (Bangladesh) - bn-BD</option>
+            <option value="en-US">English (US) - en-US</option>
+            <option value="en-GB">English (UK) - en-GB</option>
+          </select>
+        </div>
+      </section>
+
+      <!-- Microphone Diagnostics -->
+      <section class="settings-card">
+        <h2>Microphone Diagnostics</h2>
+        <p class="section-desc">Verify microphone permissions and test audio input level.</p>
+        
+        <div class="diagnostic-row">
+          <button id="runDiagBtn" class="btn-secondary">Test Microphone</button>
+          <div id="diagStatus" class="diag-status">Not tested</div>
+        </div>
+      </section>
+
+      <!-- Keyboard Shortcuts Info -->
+      <section class="settings-card">
+        <h2>Shortcuts & Sizing</h2>
+        <p class="section-desc">Keyboard shortcut: <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>X</kbd> (Mac: <kbd>⌘</kbd> + <kbd>Shift</kbd> + <kbd>X</kbd>)</p>
+        <p class="section-desc">Popup height is locked to a strict 375px calculator style for instant productivity.</p>
+      </section>
+    </main>
+
+    <footer class="options-footer">
+      <span id="saveStatus" class="save-status"></span>
+      <button id="saveSettingsBtn" class="btn-primary">Save Settings</button>
+    </footer>
+  </div>
+
+  <script type="module" src="options.js"></script>
+</body>
+</html>
